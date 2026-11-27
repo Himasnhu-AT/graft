@@ -5,6 +5,19 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # TypeScript 7 ships no JavaScript compiler API; the test scanners use it.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # vscode-languageserver-protocol 3.18 is built on vscode-jsonrpc 8.
+      - dependency-name: vscode-jsonrpc
+        update-types: ["version-update:semver-major"]
+      # node-gyp 13 needs Node >= 22.22; CI and the engines field still allow Node 20.
+      - dependency-name: node-gyp
+        update-types: ["version-update:semver-major"]
+      # The python depth grammar is a .wasm built from a pinned version and checked
+      # for parity (src/graph/grammars/grammars.json): bump it by rebuilding, not here.
+      - dependency-name: tree-sitter-python
 
   - package-ecosystem: github-actions
     directory: /
