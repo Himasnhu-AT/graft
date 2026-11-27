@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@anthropic-ai/sdk':
-        specifier: ^0.133.0
-        version: 0.133.0
+        specifier: ^1.13.0
+        version: 1.13.0
       commander:
         specifier: ^15.0.0
         version: 15.1.0
@@ -22,7 +22,7 @@ importers:
         version: 4.0.3
       openai:
         specifier: ^7.8.0
-        version: 7.65.0(undici@6.29.1)
+        version: 7.63.0(undici@6.29.1)
       tree-sitter-wasm:
         specifier: ^2.0.4
         version: 2.0.4
@@ -90,8 +90,8 @@ importers:
 
 packages:
 
-  '@anthropic-ai/sdk@0.133.0':
-    resolution: {integrity: sha512-jlqUN8p8ESTJj+GJnA4KjzbEfF1waEoGzRT8jwytlYGFFgv+/DUQOxlYGvYw10UzhD1kwLqYzxvA3FrTB2YWuQ==}
+  '@anthropic-ai/sdk@1.13.0':
+    resolution: {integrity: sha512-F4Qu3zqRINxTV5xruOvw1gXhEsYH4lOgxffxZx4IworMefc395T458pl5Uj3TZiAlO3+gvhYoHSHU7qDsrchNA==}
     hasBin: true
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
@@ -271,6 +271,10 @@ packages:
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
 
+  '@opentelemetry/api@1.10.0':
+    resolution: {integrity: sha512-lMkyes8iHrG+mk6WH7X70MdCLI2RS0FwNBY1PyQ8UemaijE2m5mv5A0Niy3HtbYTFrgkUEQjFMXmSAk2hQDuPQ==}
+    engines: {node: '>=8.0.0'}
+
   '@stablelib/base64@1.0.1':
     resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
 
@@ -413,8 +417,8 @@ packages:
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
 
-  openai@7.65.0:
-    resolution: {integrity: sha512-n7tmWKiUptMIugQMGAEDsfeu8MsPLR4uHPFWRcUjy7Mn2w968TuAUMGOlvnh/AghLF1iz4zYop2RoxfHZFKaEw==}
+  openai@7.63.0:
+    resolution: {integrity: sha512-bTRCHcdcYHu9k+2+jjPuzWTNaCORLBCNLrYkTFGmotQIec2D/lIWWMZ6uc9AIazc0MA4lYw62xpdcjUMjt98xg==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
@@ -609,8 +613,9 @@ packages:
 
 snapshots:
 
-  '@anthropic-ai/sdk@0.133.0':
+  '@anthropic-ai/sdk@1.13.0':
     dependencies:
+      '@opentelemetry/api': 1.10.0
       json-schema-to-ts: 3.1.1
       standardwebhooks: 1.3.0
 
@@ -704,6 +709,8 @@ snapshots:
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
       minipass: 7.1.3
+
+  '@opentelemetry/api@1.10.0': {}
 
   '@stablelib/base64@1.0.1': {}
 
@@ -841,7 +848,7 @@ snapshots:
     dependencies:
       abbrev: 4.0.0
 
-  openai@7.65.0(undici@6.29.1):
+  openai@7.63.0(undici@6.29.1):
     optionalDependencies:
       undici: 6.29.1
 
