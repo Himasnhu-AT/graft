@@ -1,7 +1,7 @@
 {
   "name": "@nanonets/graft",
   "version": "0.30.5",
-  "description": "Build a repo's context graph as a folder of linked markdown files: a local, regenerable cache that every query keeps in sync with your code.",
+  "description": "A code map for coding agents: every symbol, its file:line and who calls what, built with tree-sitter and kept in sync with your working tree. Fork with GDScript (Godot) support.",
   "keywords": [
     "mcp",
     "mcp-server",
@@ -19,11 +19,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trailhq/Trail-Code.git"
+    "url": "git+https://github.com/Himasnhu-AT/graft.git"
   },
-  "homepage": "https://github.com/trailhq/Trail-Code#readme",
+  "homepage": "https://github.com/Himasnhu-AT/graft#readme",
   "bugs": {
-    "url": "https://github.com/trailhq/Trail-Code/issues"
+    "url": "https://github.com/Himasnhu-AT/graft/issues"
   },
   "publishConfig": {
     "access": "public"

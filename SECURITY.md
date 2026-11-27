@@ -2,17 +2,16 @@
 
 ## Supported Versions
 
-Trail-code (formerly graft) is pre-1.0 and ships continuously from `main`. Security
-fixes are made against the latest published npm release (`@trailhq/trail`, also
-published as `@nanonets/graft`); older versions are not separately patched.
+graft is pre-1.0 and ships from `main` of this repository. Security fixes land on
+`main`; install from source to pick them up. Older commits are not separately patched.
 
 ## Reporting a Vulnerability
 
 Please do not open a public GitHub issue for security vulnerabilities.
 
-Report vulnerabilities privately via
-[GitHub Security Advisories](https://github.com/trailhq/Graft/security/advisories/new),
-or email shrish@nanonets.com.
+Report them privately via
+[GitHub Security Advisories](https://github.com/Himasnhu-AT/graft/security/advisories/new).
 
-We'll acknowledge your report within 3 business days and aim to ship a fix or
-mitigation within 30 days, depending on severity.
+A vulnerability that also affects the upstream project this fork came from
+(see [Attribution and license](README.md#attribution-and-license)) should be reported
+to upstream as well.
