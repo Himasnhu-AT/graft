@@ -26,7 +26,7 @@ summaries through a provider key you choose.
 
 ## Install
 
-graft is installed from source. Node 20 or newer and pnpm:
+graft is installed from source (the package is `@himanshu806/graft`; it is not on npm yet). Node 20 or newer and pnpm:
 
 ```bash
 git clone https://github.com/Himasnhu-AT/graft.git && cd graft

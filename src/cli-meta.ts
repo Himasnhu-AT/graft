@@ -24,8 +24,8 @@ export function resolvePackageJsonPath(moduleUrl: string): string {
 }
 
 /**
- * The npm package this code was installed as: `@trailhq/trail-code`, or
- * `@nanonets/graft` (the same code under its old name). Upgrades and update
+ * The npm package this code was installed as: `@himanshu806/graft` (or, for an install
+ * of the original project, `@trailhq/trail-code`). Upgrades and update
  * checks go to the package actually installed, not to the name typed.
  */
 export function readPackageName(moduleUrl: string): string {

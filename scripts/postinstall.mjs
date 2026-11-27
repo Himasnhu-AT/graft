@@ -10,7 +10,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 // The same code ships as @trailhq/trail-code (the `trail` command) and as
 // @nanonets/graft (`graft`, its old name). The install event and the nudge say
 // which one this is.
-let pkgName = '@nanonets/graft';
+let pkgName = '@himanshu806/graft';
 try {
   pkgName = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).name ?? pkgName;
 } catch { /* the graft defaults */ }

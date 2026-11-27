@@ -1,5 +1,5 @@
 {
-  "name": "@nanonets/graft",
+  "name": "@himanshu806/graft",
   "version": "0.30.5",
   "description": "A code map for coding agents: every symbol, its file:line and who calls what, built with tree-sitter and kept in sync with your working tree. Now with GDScript (Godot).",
   "keywords": [
