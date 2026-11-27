@@ -96,11 +96,14 @@ test('an empty batch is not a request', async () => {
   assert.deepEqual(hits, []);
 });
 
-test('the default host is the one the other server-side integration uses', () => {
+test('there is no default host: telemetry only goes where GRAFT_POSTHOG_HOST points', () => {
   const saved = process.env.GRAFT_POSTHOG_HOST;
   delete process.env.GRAFT_POSTHOG_HOST;
-  assert.equal(posthogHost(), 'https://events.nanonets.com');
-  process.env.GRAFT_POSTHOG_HOST = saved;
+  try {
+    assert.equal(posthogHost(), '');
+  } finally {
+    process.env.GRAFT_POSTHOG_HOST = saved;
+  }
 });
 
 test('a trailing slash on the configured host does not produce a double slash', () => {

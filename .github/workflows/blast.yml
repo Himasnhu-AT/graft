@@ -38,7 +38,7 @@ jobs:
           comment: "false"
           # graft reviews its own PRs with the code IN the PR, not with the last
           # release — a release cannot run a command the PR is adding.
-          setup-cmd: npm ci && npm run build
+          setup-cmd: pnpm install --frozen-lockfile && pnpm run build
           graft-cmd: node dist/cli.js
           # A fork's PR gets no secrets, so naming would fail anyway; every area then
           # carries its hub-symbol name, which is still reviewable.

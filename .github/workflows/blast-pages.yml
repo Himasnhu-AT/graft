@@ -8,7 +8,7 @@ name: Blast viewer
 # carries the standard hazard: this workflow runs with the BASE repo's permissions
 # while the PR's code is attacker-controlled on a fork. So it checks out the base
 # ref for the tooling, builds the CLI from the BASE commit, and only ever reads the
-# PR's files as data — never runs a script from the PR (no `npm ci` on the PR's
+# PR's files as data — never runs a script from the PR (no `pnpm install --frozen-lockfile` on the PR's
 # package.json, no postinstall). The graph is built from the PR's source text by a
 # tree-sitter parser, which executes none of it.
 #
@@ -77,13 +77,19 @@ jobs:
           path: base
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+
+        with:
+
+          version: 11.24.0
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "20"
 
       - name: Build the CLI from the base commit
         working-directory: base
-        run: npm ci && npm run build
+        run: pnpm install --frozen-lockfile && pnpm run build
 
       # 2. The PR's code, as data only.
       #

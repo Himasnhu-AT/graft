@@ -12,6 +12,6 @@ Please do not open a public GitHub issue for security vulnerabilities.
 Report them privately via
 [GitHub Security Advisories](https://github.com/Himasnhu-AT/graft/security/advisories/new).
 
-A vulnerability that also affects the upstream project this fork came from
+A vulnerability that also affects the original project graft is derived from
 (see [Attribution and license](README.md#attribution-and-license)) should be reported
 to upstream as well.

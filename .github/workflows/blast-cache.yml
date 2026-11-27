@@ -34,12 +34,18 @@ jobs:
           fetch-depth: 60
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+
+        with:
+
+          version: 11.24.0
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "20"
 
       - name: Build the CLI from this commit
-        run: npm ci && npm run build
+        run: pnpm install --frozen-lockfile && pnpm run build
 
       - name: Build the graph, the concept layer, and name every area
         env:

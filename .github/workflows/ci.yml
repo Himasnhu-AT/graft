@@ -30,11 +30,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.24.0
+
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '20'
-          cache: npm
+          cache: pnpm
 
       # The tree-sitter grammars are native addons, so this step compiles C++ on
       # Windows. Each one builds via `node-gyp-build`, which locates node-gyp with a
@@ -52,10 +57,10 @@ jobs:
       # Node 20 this matrix pins, since 13.x requires >=22.22. Don't drop node-gyp
       # from devDependencies, and don't bump it past 12.x without moving Node first.
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Test
-        run: npm test
+        run: pnpm test
 
   node24-wasm:
     name: Node 24 WASM regression
@@ -66,14 +71,19 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.24.0
+
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '24'
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Exercise every breadth grammar
         run: node --import tsx --test test/generic-node24.test.ts

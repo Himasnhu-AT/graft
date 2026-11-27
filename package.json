@@ -1,7 +1,7 @@
 {
   "name": "@nanonets/graft",
   "version": "0.30.5",
-  "description": "A code map for coding agents: every symbol, its file:line and who calls what, built with tree-sitter and kept in sync with your working tree. Fork with GDScript (Godot) support.",
+  "description": "A code map for coding agents: every symbol, its file:line and who calls what, built with tree-sitter and kept in sync with your working tree. Now with GDScript (Godot).",
   "keywords": [
     "mcp",
     "mcp-server",
@@ -52,8 +52,8 @@
     "dev": "tsc -p tsconfig.json --watch",
     "cli": "tsx src/cli.ts",
     "test": "node scripts/run-tests.mjs",
-    "prepare": "npm run build && node scripts/stamp-telemetry-key.mjs",
-    "prepublishOnly": "npm run build",
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
     "postinstall": "node scripts/postinstall.mjs"
   },
   "engines": {

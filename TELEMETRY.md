@@ -1,5 +1,10 @@
 # Telemetry
 
+> **Telemetry is disabled in this repository.** No PostHog key is baked into any build (the stamping
+> script was removed) and there is no default endpoint, so nothing is ever sent. The rest of this page is
+> the original project's description of the module, kept for reference: setting both
+> `GRAFT_POSTHOG_KEY` and `GRAFT_POSTHOG_HOST` yourself is the only way it would send anything.
+
 Trail-code collects a small set of **anonymous** usage events so we can tell whether
 the thing works: how many repos get past a build, whether an agent reaches for
 Trail-code or falls back to grep, which commands earn their place, and what breaks in

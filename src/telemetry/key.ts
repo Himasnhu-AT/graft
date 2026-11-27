@@ -1,5 +1,8 @@
 /**
- * The PostHog project key, and the reason forks stay silent.
+ * The PostHog project key and host. Telemetry is disabled in this repository: no
+ * key is baked in at build or publish time (the stamping script is gone) and there
+ * is no default host, so every send path short-circuits on the first gate. The
+ * notes below describe how upstream used these two values.
  *
  * `BAKED_KEY` is empty in the repository and is rewritten in place by
  * `scripts/stamp-telemetry-key.mjs`, which runs from `prepublishOnly`. So the
@@ -41,12 +44,14 @@ const BAKED_KEY = '';
  * asymmetry is the point: with no key, a fork built from this source sends
  * nothing no matter where the host points.
  */
-const BAKED_HOST = 'https://events.nanonets.com';
+const BAKED_HOST = '';
 
+/** Empty unless GRAFT_POSTHOG_KEY is set: nothing ever bakes a key into a build. */
 export function posthogKey(): string {
   return process.env.GRAFT_POSTHOG_KEY || BAKED_KEY;
 }
 
+/** Empty unless GRAFT_POSTHOG_HOST is set: there is no default endpoint. */
 export function posthogHost(): string {
   return (process.env.GRAFT_POSTHOG_HOST || BAKED_HOST).replace(/\/+$/, '');
 }

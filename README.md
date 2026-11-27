@@ -9,11 +9,12 @@ files.
 Everything structural runs on your machine with no model and no key. An optional `--deep` pass adds LLM-written
 summaries through a provider key you choose.
 
-## What's different in this fork
+## Highlights
 
 - **GDScript (Godot `.gd`) is indexed**: `class_name` classes, inner classes, functions, signals, enums, constants
   and member vars, with calls, class references and `res://` imports (see [Supported languages](#supported-languages)).
 - Installed and developed with pnpm, from source.
+- No telemetry: nothing is sent anywhere (see [What runs where](#what-runs-where)).
 
 ## Contents
 
@@ -143,7 +144,7 @@ _Summary, sources, links, and your text ship today in markdown nodes. The crux s
 
 - **On your machine, no key, no network:** the structural code graph. `graft build` (wiring graph + per-file cards), `graft build --check`, `graft ask`, learnings and `graft check` are deterministic. They never call a model.
 - **Through your provider key:** the LLM-written parts. `graft build --deep` adds the concept nodes (file summaries + node synthesis) and the per-symbol summaries and cruxes. The graft map is vendor-neutral: set `GRAFT_PROVIDER` (`openai` for any OpenAI-compatible endpoint, `anthropic` for the native API, or `litellm` / `orcarouter` for a gateway that speaks the OpenAI-compatible format), your `GRAFT_API_KEY`, `GRAFT_MODEL`, and, for the `openai` wire format, `GRAFT_BASE_URL` to point at OpenRouter, Fireworks, Groq, a LiteLLM proxy, a local server, or OpenAI itself. Or pass `--provider/--model/--api-key/--base-url` on the command line. (`OPENROUTER_API_KEY` still works as a deprecated fallback, and `ORCAROUTER_API_KEY` as a second one.)
-- **Anonymous usage stats:** a daily npm version check and one batched usage ping. The ping carries buckets and fixed labels only: never your code, file paths, repo name, symbols, queries, learnings or error messages. [`TELEMETRY.md`](TELEMETRY.md) is the complete list and `graft telemetry debug` prints exactly what your machine would send. `DO_NOT_TRACK=1` disables both network calls; `graft telemetry disable` or unchecking the box in `graft init` disables only the usage ping. The ping is off in CI and in any build from source.
+- **No usage telemetry.** The telemetry module from the original project is still in the code (`graft telemetry status` and `debug` work), but no key or endpoint is ever built in, so nothing is sent. A daily npm version check is the one remaining network call; `DO_NOT_TRACK=1` turns it off.
 
 Settings keep their `GRAFT_` names. See [`.env.example`](.env.example) for the full list (model, base URL, graph directory).
 
@@ -306,8 +307,8 @@ graft build --follow-nested-repos    # include nested git clones the index doesn
 graft build --no-follow-nested-repos # exclude nested clones again and persist that choice (the default)
 
 graft status [dir]                   # the graft map, learnings and tokens saved, on one screen
-                                     # no `upgrade` here: it would install the upstream npm package over
-                                     # this fork. Pull and rebuild from source instead (see Install)
+                                     # no `upgrade` here: it would install the old npm package over this
+                                     # build. Pull and rebuild from source instead (see Install)
 graft uninstall [dir]                # remove every file and config entry it wrote here (the inverse of init)
 graft uninstall -y                   # actually remove (without -y it prints what it would remove and exits)
 graft uninstall --keep-cache         # wiring only; leave graft/ and the .gitignore entry
@@ -465,8 +466,8 @@ pnpm run cli build --deep .        # run the CLI from source
 
 graft is MIT-licensed; see [LICENSE](LICENSE). The original copyright notice is kept as is.
 
-This repository is a fork of [trailhq/Trail-Code](https://github.com/trailhq/Trail-Code)
-(published as `@trailhq/trail-code`, earlier as graft, `@nanonets/graft`). It diverged at upstream commit
+graft is derived from [trailhq/Trail-Code](https://github.com/trailhq/Trail-Code)
+(published as `@trailhq/trail-code`, earlier as graft, `@nanonets/graft`), and continues from its commit
 [`d8a59c17`](https://github.com/trailhq/Trail-Code/commit/d8a59c17cf58abdbbaa2ba310c103b2fb38ca802)
 ("Get overlap warnings ready to go live (#738)", version 0.30.5). Everything up to that commit is the work of the
 upstream authors and contributors, credited in the git history and in [CREDITS.md](CREDITS.md).

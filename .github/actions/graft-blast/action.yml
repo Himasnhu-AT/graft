@@ -67,7 +67,7 @@ inputs:
     default: npx --yes @nanonets/graft@latest
   setup-cmd:
     description: >-
-      Command run before graft, for the locally-built case (e.g. `npm ci && npm run
+      Command run before graft, for the locally-built case (e.g. `pnpm install --frozen-lockfile && npm run
       build`). Empty by default.
     required: false
     default: ""
@@ -84,6 +84,10 @@ runs:
     # (ref, submodules, credentials), and doing it twice would silently discard
     # whatever the caller had set up. A missing merge base is reported by `graft
     # blast` itself, naming `fetch-depth: 0` as the fix.
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 11.24.0
+
     - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
       with:
         node-version: "20"
