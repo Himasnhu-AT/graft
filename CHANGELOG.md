@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- **GDScript (Godot) is indexed.** `.gd` files join the breadth tier through
+  the tree-sitter-gdscript grammar and a new `queries/gdscript.scm`: a
+  `class_name` script is a class spanning its file, with its functions,
+  signals, enums, constants and member vars; calls resolve by name (a
+  `super.f()` call is left out), `Foo.new()`, `extends Foo` and type
+  annotations reference project-global classes, and `res://` paths in
+  `preload`, `load` and `extends "…"` become file imports, matched as a path
+  suffix because `res://` is wherever `project.godot` sits (#299).
+
 ## 0.30.5
 
 - **`trail share-session` says what to type, and lets you leave folders

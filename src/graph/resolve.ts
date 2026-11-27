@@ -162,6 +162,9 @@ export function resolveEdges(
   // node ids. A Gleam package roots every module at its own `src/` (or `test/`),
   // so an `import app/thing` is exactly that suffix under some unknown root.
   const gleamFilesBySuffix = new Map<string, string[]>();
+  // Godot: `res://` is the folder holding project.godot, which may sit anywhere in
+  // the repo, so a `res://scripts/x.gd` path is matched as a path suffix.
+  const godotFilesBySuffix = new Map<string, string[]>();
   const hasGoModules = !!opts.goModules?.length;
   for (const n of nodes) {
     if (n.kind === "file") {
@@ -187,6 +190,10 @@ export function resolveEdges(
       if (n.path.endsWith(".gleam")) {
         const parts = toPosixPath(n.path).split("/");
         for (let i = 0; i < parts.length; i++) push(gleamFilesBySuffix, parts.slice(i).join("/"), n.id);
+      }
+      if (n.path.endsWith(".gd")) {
+        const parts = toPosixPath(n.path).split("/");
+        for (let i = 0; i < parts.length; i++) push(godotFilesBySuffix, parts.slice(i).join("/"), n.id);
       }
       {
         const p = toPosixPath(n.path);
@@ -265,7 +272,9 @@ export function resolveEdges(
                   ? resolvePhpUse(e.specifier, phpFilesBySuffix)
                   : e.file.endsWith(".gleam")
                     ? resolveGleamImport(e.specifier, gleamFilesBySuffix)
-                    : resolveImport(e.specifier, e.file, byId);
+                    : e.file.endsWith(".gd")
+                      ? resolveGodotRes(e.specifier, godotFilesBySuffix)
+                      : resolveImport(e.specifier, e.file, byId);
       add(e.source, target, "imports", "extracted");
     } else if (e.relation === "extends" || e.relation === "implements") {
       // `implements` also resolves to a `trait` — PHP models trait composition
@@ -628,6 +637,19 @@ function resolveTraitMember(
  * Resolve a module specifier to a file node id when it points inside the repo;
  * otherwise return the raw specifier (external package or unresolved path).
  */
+/**
+ * Resolve a Godot `res://` path (from `preload`, `load` or `extends "…"`) to an
+ * in-repo file. `res://` is the directory holding project.godot, which need not
+ * be the repo root, so the path after the scheme is matched as a path suffix. A
+ * suffix two files share is ambiguous and stays unresolved, as does anything that
+ * is not a `res://` path or not a file in the graph (an asset, a scene).
+ */
+function resolveGodotRes(spec: string, filesBySuffix: Map<string, string[]>): string {
+  if (!spec.startsWith("res://")) return spec;
+  const files = filesBySuffix.get(spec.slice("res://".length));
+  return files && files.length === 1 ? files[0] : spec;
+}
+
 function resolveImport(spec: string, file: string, byId: Map<string, NodeV1>): string {
   if (!spec.startsWith(".")) return spec;
   // Belt-and-braces: `node.path` is posix by construction (`../util/paths.ts`),

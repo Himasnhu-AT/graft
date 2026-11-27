@@ -65,7 +65,8 @@ export const GENERIC_LANGS: readonly GenericLang[] = [
   { name: "gleam", exts: [".gleam"], wasm: "gleam" },
   { name: "powershell", exts: [".ps1", ".psm1"], wasm: "powershell" },
   { name: "julia", exts: [".jl"], wasm: "julia" },
-  { name: "glsl", exts: [".glsl"], wasm: "glsl" }, // #293; gdscript is #299
+  { name: "glsl", exts: [".glsl"], wasm: "glsl" }, // #293
+  { name: "gdscript", exts: [".gd"], wasm: "gdscript" }, // Godot; #299
   { name: "bash", exts: [".sh", ".bash"], wasm: "bash" },
 ];
 
@@ -327,6 +328,7 @@ export function extractGeneric(rel: string, source: string, langName: string): E
   // IS the dependency graph — capture it as a file→file import. Likewise a Rust
   // `use crate::…` is an in-crate module dependency.
   if (langName === "c" || langName === "cpp") extractIncludes(tree.rootNode as TsNode, rel, rawEdges);
+  else if (langName === "gdscript") extractGodotLoads(tree.rootNode as TsNode, rel, rawEdges);
   else if (langName === "rust") extractUses(tree.rootNode as TsNode, rel, rawEdges);
   else if (langName === "php") extractPhpUses(tree.rootNode as TsNode, rel, rawEdges);
   else if (langName === "gleam") extractGleamModules(tree.rootNode as TsNode, rel, defs, rawEdges);
@@ -415,6 +417,37 @@ function extractIncludes(root: TsNode, rel: string, rawEdges: RawEdge[]): void {
         if (spec) rawEdges.push({ source: rel, relation: "imports", specifier: spec, file: rel });
       }
     }
+    for (let i = 0; i < (n.namedChildCount ?? 0); i++) {
+      const c = n.namedChild?.(i);
+      if (c) visit(c);
+    }
+  };
+  visit(root);
+}
+
+/**
+ * GDScript has no import statement: a script reaches another file through
+ * `preload("res://…")` / `load("res://…")`, or inherits one with
+ * `extends "res://…"`. Each literal `res://` path becomes a file→file
+ * `imports` raw edge; resolve.ts settles it against the repo's files. A path
+ * built at run time (`load(dir + name)`) names no file and is skipped.
+ */
+function extractGodotLoads(root: TsNode, rel: string, rawEdges: RawEdge[]): void {
+  const resPath = (n: TsNode | null | undefined): string | null => {
+    if (!n || n.type !== "string") return null;
+    const spec = n.text.replace(/^["']|["']$/g, "");
+    return spec.startsWith("res://") ? spec : null;
+  };
+  const visit = (n: TsNode): void => {
+    let spec: string | null = null;
+    if (n.type === "call") {
+      const callee = n.namedChild?.(0);
+      if (callee?.type === "identifier" && (callee.text === "preload" || callee.text === "load"))
+        spec = resPath(n.childForFieldName?.("arguments")?.namedChild?.(0));
+    } else if (n.type === "extends_statement") {
+      spec = resPath(n.namedChild?.(0));
+    }
+    if (spec) rawEdges.push({ source: rel, relation: "imports", specifier: spec, file: rel });
     for (let i = 0; i < (n.namedChildCount ?? 0); i++) {
       const c = n.namedChild?.(i);
       if (c) visit(c);
