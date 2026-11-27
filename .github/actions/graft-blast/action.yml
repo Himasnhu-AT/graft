@@ -84,7 +84,7 @@ runs:
     # (ref, submodules, credentials), and doing it twice would silently discard
     # whatever the caller had set up. A missing merge base is reported by `graft
     # blast` itself, naming `fetch-depth: 0` as the fix.
-    - uses: pnpm/action-setup@v4
+    - uses: pnpm/action-setup@v6
       with:
         version: 11.24.0
 
